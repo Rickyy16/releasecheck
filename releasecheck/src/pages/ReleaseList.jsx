@@ -6,11 +6,9 @@ import axios from "axios";
 function ReleaseList() {
     const [releases, setReleases] = useState([]);
 
-    const API = "http://localhost:5000";
-
     const getReleases = () => {
         try {
-            axios.get(`${API}/releases`)
+            axios.get(`${import.meta.env.VITE_API_URL}/releases`)
                 .then(res => setReleases(res.data))
                 .catch(err => console.log(err));
         } catch (err) {
@@ -21,7 +19,7 @@ function ReleaseList() {
 
     const deleteRelease = (id) => {
         try {
-            axios.delete(`${API}/releases/${id}`)
+            axios.delete(`${import.meta.env.VITE_API_URL}/releases/${id}`)
                 .then(res => getReleases())
                 .catch(err => console.log(err));
         } catch (err) {

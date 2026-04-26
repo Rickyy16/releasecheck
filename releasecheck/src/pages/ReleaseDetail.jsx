@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const API = "http://localhost:5000";
-
 const STEPS = [
   "Code Freeze",
   "Run Tests",
@@ -22,7 +20,7 @@ export default function ReleaseDetail() {
    const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${API}/releases/${id}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/releases/${id}`)
       .then(res => setRelease(res.data));
   }, [id]);
 
@@ -30,7 +28,7 @@ export default function ReleaseDetail() {
     const updatedSteps = [...release.steps];
     updatedSteps[index] = !updatedSteps[index];
 
-    const res = await axios.put(`${API}/releases/${id}`, {
+    const res = await axios.put(`${import.meta.env.VITE_API_URL}/releases/${id}`, {
       steps: updatedSteps
     });
 

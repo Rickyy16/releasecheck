@@ -12,13 +12,11 @@ export default function CreateRelease() {
 
   const navigate = useNavigate();
 
-  const API = "http://localhost:5000";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post(`${API}/releases`, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/releases`, {
         name,
         date,
         additional_info: info
