@@ -38,7 +38,7 @@ export default function ReleaseDetail() {
 
   const updateInfo = async () => {
   try {
-    const res = await axios.put(`${API}/releases/${id}`, {
+    const res = await axios.put(`${import.meta.env.VITE_API_URL}/releases/${id}`, {
       additional_info: info
     });
 
@@ -90,7 +90,7 @@ export default function ReleaseDetail() {
             <div className="flex gap-3">
               <div className="mb-5">
                 <label for="release" className="block mb-2.5 text-sm font-medium text-heading">Release</label>
-                <input value={release?.name} type="text" id="release" className=" border border-default-medium border-gray-500 text-heading text-sm block w-60 px-3 py-2.5 rounded" placeholder="Versin 0.0.1" required />
+                <input  disabled defaultValue={release?.name} type="text" id="release" className=" border border-default-medium border-gray-500 text-heading text-sm block w-60 px-3 py-2.5 rounded" placeholder="Versin 0.0.1" required />
               </div>
               <div className="mb-5">
                 <label htmlFor="release" className="block mb-2.5 text-sm font-medium text-gray-900">
@@ -99,8 +99,9 @@ export default function ReleaseDetail() {
                 <input
                   id="release"
                   type="date"
-                  value={release?.name}
-                  className="block w-60 ps-10 pe-3 py-2.5 border border-gray-500 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500"
+                  disabled
+                  defaultValue={release?.date?.split("T")[0]}
+                  className="block w-60 px-3 py-2.5 border border-gray-500 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
@@ -116,7 +117,7 @@ export default function ReleaseDetail() {
             <div className="flex justify-between gap-3 mt-3">
               <div className="mb-5">
                 <label for="message" className="block mb-2.5 text-sm font-medium text-heading">Addional info</label>
-                <textarea id="message" rows="5" value={info} className="border border-default-medium border-gray-500 text-heading text-sm rounded block w-140 p-3.5" placeholder="Please Add any other important notes for the release"></textarea>
+                <textarea id="message" rows="5" value={info} onChange={(e)=>setInfo(e.target.value)} className="border border-default-medium border-gray-500 text-heading text-sm rounded block w-140 p-3.5" placeholder="Please Add any other important notes for the release"></textarea>
               </div>
               <div className="flex py-5 items-end">
                 <button onClick={updateInfo} className="h-11 flex gap-2 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded cursor-pointer">

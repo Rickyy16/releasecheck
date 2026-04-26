@@ -14,7 +14,7 @@ export default function CreateRelease() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!name) { alert("Enter Release Name"); }
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/releases`, {
         name,
@@ -78,7 +78,7 @@ export default function CreateRelease() {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="block w-60 ps-10 pe-3 py-2.5 border border-gray-500 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-60 px-3 py-2.5 border border-gray-500 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
