@@ -16,12 +16,13 @@ const STEPS = [
 export default function ReleaseDetail() {
   const { id } = useParams();
   const [release, setRelease] = useState(null);
+  const [info, setInfo] = useState("");
 
    const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/releases/${id}`)
-      .then(res => setRelease(res.data));
+      .then(res => (setRelease(res.data),setInfo(res.data.additional_info || "")));
   }, [id]);
 
   const toggleStep = async (index) => {
@@ -34,6 +35,21 @@ export default function ReleaseDetail() {
 
     setRelease(res.data);
   };
+
+  const updateInfo = async () => {
+  try {
+    const res = await axios.put(`${API}/releases/${id}`, {
+      additional_info: info
+    });
+
+    setRelease(res.data);
+    navigate("/");
+    alert("Updated successfully");
+  } catch (err) {
+    console.log(err);
+    alert("Update failed");
+  }
+};
 
   if (!release) return <p>Loading...</p>;
 
@@ -100,10 +116,10 @@ export default function ReleaseDetail() {
             <div className="flex justify-between gap-3 mt-3">
               <div className="mb-5">
                 <label for="message" className="block mb-2.5 text-sm font-medium text-heading">Addional info</label>
-                <textarea id="message" rows="5" value={release?.info} className="border border-default-medium border-gray-500 text-heading text-sm rounded block w-140 p-3.5" placeholder="Please Add any other important notes for the release"></textarea>
+                <textarea id="message" rows="5" value={info} className="border border-default-medium border-gray-500 text-heading text-sm rounded block w-140 p-3.5" placeholder="Please Add any other important notes for the release"></textarea>
               </div>
               <div className="flex py-5 items-end">
-                <button onClick={()=>navigate("/")} className="h-11 flex gap-2 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                <button onClick={updateInfo} className="h-11 flex gap-2 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
                   <span>Save</span>
                   <svg xmlns="http://w3.org" className="w-5 h-5 mt-[2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />

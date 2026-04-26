@@ -75,7 +75,7 @@ function ReleaseList() {
                                             {r.name}
                                         </th>
                                         <td className="px-6 py-4">{new Date(r.date).toLocaleDateString()}</td>
-                                        <td className="px-6 py-4">{r.status}</td>
+                                        <td className="px-6 py-4">{r.status.toUpperCase()}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center justify-center gap-6">
                                                 <Link to={`/release/${r.id}`}>
