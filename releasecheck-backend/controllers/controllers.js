@@ -7,17 +7,16 @@ const DEFAULT_STEPS = [false, false, false, false, false, false, false];
 // GET all releases
 exports.getReleases = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM releases ORDER BY created_at DESC");
+    const result = await pool.query(" SELECT * FROM releases ORDER BY created_at DESC");
 
     const data = result.rows.map(r => ({
       ...r,
-      status: getStatus(r.steps)
+      status: getStatus(r.steps),
+      sldh:""
     }));
 
     res.json(data);
   } catch (err) {
-    console.log(";s;kdfl")
-    console.log(err)
     res.status(500).json({ error: err.message });
   }
 };
@@ -29,7 +28,7 @@ exports.createRelease = async (req, res) => {
   try {
     const result = await pool.query(
       "INSERT INTO releases (name, date, additional_info, steps) VALUES ($1, $2, $3, $4) RETURNING *",
-      [name, date, additional_info || "", DEFAULT_STEPS]
+      [name, date, additional_info || "", JSON.stringify(DEFAULT_STEPS)]
     );
 
     res.json(result.rows[0]);
@@ -67,7 +66,7 @@ exports.updateRelease = async (req, res) => {
            additional_info = COALESCE($2, additional_info)
        WHERE id = $3
        RETURNING *`,
-      [steps, additional_info, req.params.id]
+      [JSON.stringify(steps), additional_info, req.params.id]
     );
 
     res.json(result.rows[0]);
